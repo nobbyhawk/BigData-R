@@ -119,8 +119,165 @@ $(document).ready(function () {
 </div>
 
 
-<div id="bigdata-r" class="section level1">
-<h1>BigData-R</h1>
+<div id="your-guide-to-datafest" class="section level1">
+<h1>Your Guide to DataFest</h1>
+<div id="adapted-work-from-tyson-ni-on-github" class="section level5">
+<h5>Adapted work from tyson-ni on GitHub</h5>
+</div>
+<div id="download-data" class="section level2">
+<h2>Download Data</h2>
+<p>Click <em>Download Sample Data</em> and save to your working directory (where your R code is)</p>
+<ul>
+<li><a href="https://www.ookla.com/speedtest-intelligence">download</a></li>
+</ul>
+<p><em><strong>Remember</strong></em>: whenever you have questions about how to use or what to put in a function, type this in console:</p>
+<p><strong><code>?feature-I-am-confused-about</code></strong></p>
+<p>Do it.</p>
+<hr />
+</div>
+<div id="importing-data" class="section level2">
+<h2>Importing Data</h2>
+<div id="readr" class="section level3">
+<h3>readr</h3>
+<p>Imports and exports data <em>much</em> faster than default R.</p>
+<ul>
+<li><a href="https://github.com/hadley/readr/blob/master/README.md">manual</a></li>
+</ul>
+</div>
+<div id="sample" class="section level3">
+<h3>Sample!</h3>
+<p>Start with a <em>small</em> sample of the overall dataset.</p>
+<pre eval="FALSE"><code>read_csv(file, nrow=*small number*)</code></pre>
+<hr />
+</div>
+</div>
+<div id="cleaning-and-analyzing-data" class="section level2">
+<h2>Cleaning and Analyzing Data</h2>
+<p>You’ll spend the most time cleaning data. Don’t give up. Patience pays off.</p>
+<div id="dplyr" class="section level3">
+<h3>dplyr</h3>
+<p>The single most powerful library in R. Summarize, filter, remove, transform and create new data… You’ll save lots of time and trouble if you use this instead of default R.</p>
+<ul>
+<li><p><a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">best intro tutorial</a></p></li>
+<li><p><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">PDF cheatsheet</a></p></li>
+<li><p><a href="http://genomicsclass.github.io/book/pages/dplyr_tutorial.html">another tutorial</a></p></li>
+<li><p><a href="http://www.r-bloggers.com/data-manipulation-with-dplyr/">yet another tutorial</a></p></li>
+</ul>
+<div id="pipe-operators" class="section level4">
+<h4>Pipe Operators</h4>
+<p><em>%&gt;%</em> Saves a lot of memory, and is much more readable</p>
+<pre eval="FALSE"><code> dataset &lt;- read_csv(android) %&gt;%
+          dplyr::group_by(device) %&gt;%
+          dplyr::summarise(avgSpeed = download_kbps) %&gt;%
+          dplyr::arrange(avgSpeed)</code></pre>
+<p>This is the same code as:</p>
+<pre eval="FALSE"><code>data set &lt;- arrange(summarise(group_by(read_csv(android), device), avgSpeed = download_kbps), avgSpeed))</code></pre>
+</div>
+</div>
+<div id="stringr" class="section level3">
+<h3>stringr</h3>
+<p>Great for working with strings</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html">tutorial</a></li>
+</ul>
+</div>
+<div id="lubridate" class="section level3">
+<h3>lubridate</h3>
+<ul>
+<li>A quick way to format variables that store time and dates</li>
+<li><a href="https://cran.r-project.org/web/packages/lubridate/vignettes/lubridate.html">tutorial</a></li>
+</ul>
+</div>
+<div id="regular-expression-regex" class="section level3">
+<h3>regular expression (regex)</h3>
+<blockquote>
+<p>Let’s say you want to extract the height and width dimensions in an artworks dataset. The original variable stores the info like this mess: <code>19 1/8 x 66 1/2&quot;(48.6 x 168.9cm)</code></p>
+</blockquote>
+<blockquote>
+<p>We only care about <code>48.6</code> and <code>168.9</code>. We do this through REGEX.</p>
+</blockquote>
+<blockquote>
+<p>This is the regex pattern to get <code>48.6</code> : <code>&quot;\\(([:digit:]+\\.*[:digit:]*)\\s[x×]&quot;</code></p>
+</blockquote>
+<blockquote>
+<p>This is the regex pattern to get <code>168.9</code> : <code>&quot;[x×]\\s([:digit:]+\\.*[:digit:]*)\\scm&quot;</code></p>
+</blockquote>
+<ul>
+<li>Great website to learn regex and practice live!</li>
+<li><a href="http://www.regexr.com/">link</a></li>
+</ul>
+<hr />
+</div>
+<div id="pandas-in-python" class="section level3">
+<h3>pandas in Python</h3>
+<p>For Python coders</p>
+<ul>
+<li><a href="http://pandas.pydata.org/pandas-docs/version/0.15.2/10min.html#min">10 minute tutorial</a></li>
+</ul>
+<hr />
+</div>
+<div id="quartzs-guide-to-bad-data" class="section level3">
+<h3>Quartz’s guide to bad data</h3>
+<ul>
+<li>A collection of common data recording problems and ways to fix them</li>
+<li><a href="https://github.com/Quartz/bad-data-guide">link</a></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="visualization" class="section level2">
+<h2>Visualization</h2>
+<p>Wanna win the Best Visualization prize?</p>
+<div id="ggplot" class="section level3">
+<h3>ggplot</h3>
+<p>Best library for creating graphics in R</p>
+</div>
+<div id="tableau" class="section level3">
+<h3>Tableau</h3>
+<p>A software for creating graphics using drag and drop interface. No code necessary. Play around with this if you’re stuck! Tableau Public is free.</p>
+<ul>
+<li><a href="https://public.tableau.com/s/download">download</a></li>
+<li><a href="http://dh101.humanities.ucla.edu/?page_id=163">tutorial</a></li>
+<li><a href="https://public.tableau.com/s/gallery">gallery</a></li>
+</ul>
+</div>
+<div id="plotly" class="section level3">
+<h3>plotly</h3>
+</div>
+<div id="python-libraries" class="section level3">
+<h3>Python libraries</h3>
+</div>
+<div id="d3" class="section level3">
+<h3>D3</h3>
+<p>Behind some of the most impressive interactive visualizations. Great for creating original graphics that perfectly matches your quirky mental model of what data looks like.</p>
+<ul>
+<li><a href="http://alignedleft.com/tutorials/d3/">great series of tutorials</a></li>
+<li><a href="http://bl.ocks.org/mbostock">demos with code included</a></li>
+<li><a href="https://github.com/mbostock/d3/wiki/API-Reference">reference manual</a></li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="machine-learning" class="section level2">
+<h2>Machine Learning</h2>
+<blockquote>
+<p>Everybody is talking about it. From my experience, DataFest judges want you to <em>explain why something is the case</em> rather than predict what might happen. Machine learning usually excels at prediction but not explanation. But definitely take this opportunity to practice ML.</p>
+</blockquote>
+<div id="a-curated-list-of-resources" class="section level3">
+<h3>A curated list of resources</h3>
+<p>This person did an amazing job covering topics from classification and regression to deep learning and ensembles</p>
+<ul>
+<li><a href="https://github.com/ujjwalkarn/Machine-Learning-Tutorials">link</a></li>
+</ul>
+</div>
+</div>
+<div id="external-datasets" class="section level2">
+<h2>External Datasets</h2>
+<div id="awesome-public-datasets" class="section level3">
+<h3>“Awesome Public Datasets”</h3>
+<p>A truly awesome collection of many kinds of public datasets, covering weather, economics, health and many more * <a href="https://github.com/caesar0301/awesome-public-datasets">link</a></p>
+</div>
+</div>
 </div>
 
 
