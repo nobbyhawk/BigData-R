@@ -1,5 +1,5 @@
 # Your Guide to DataFest
-#####Adapted work from tyson-ni on GitHub
+##### Adapted work from [tyson-ni](https://github.com/tyson-ni/DataFest-Guide) on GitHub
 
 
 ## Download Data
@@ -14,6 +14,11 @@ _**Remember**_: whenever you have questions about how to use or what to put in a
 **`?feature-I-am-confused-about`**
 
 Do it.
+
+#### Practice!
+Use these datasets as practice - a truly awesome collection of many kinds of public datasets, covering weather, economics, health and many more
+
+* [link](https://github.com/caesar0301/awesome-public-datasets)
 
 ***
 
@@ -35,7 +40,7 @@ read_csv(file, nrow=*small number*)
 ```
 
 ### Exclude unnecessary columns
- 
+If there is information not useful for anything, take it out!
 
 ***
 
@@ -121,7 +126,7 @@ For Python coders
 
 Wanna win the Best Visualization prize?
 
-### ggplot
+### ggplot2
 
 Best library for creating graphics in R
 
@@ -158,11 +163,6 @@ This person did an amazing job covering topics from classification and regressio
 
 * [link](https://github.com/ujjwalkarn/Machine-Learning-Tutorials)
 
-## External Datasets
 
-### "Awesome Public Datasets"
-
-A truly awesome collection of many kinds of public datasets, covering weather, economics, health and many more
-* [link](https://github.com/caesar0301/awesome-public-datasets)
 
 
