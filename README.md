@@ -35,8 +35,7 @@ read_csv(file, nrow=*small number*)
 ```
 
 ### Exclude unnecessary columns
-```{eval=FALSE}
-read_csv  
+ 
 
 ***
 
