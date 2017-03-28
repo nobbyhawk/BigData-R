@@ -1,29 +1,52 @@
-# Your Guide to DataFest
+---
+title: "Your Guide to DataFest"
+author: "Chris Nobblitt"
+date: "March 28, 2017"
+output: 
+  html_document:
+    toc: TRUE
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 ##### Adapted work from [tyson-ni](https://github.com/tyson-ni/DataFest-Guide) on GitHub
 
 
-## Download Data
 
-Click *Download Sample Data* and save to your working directory (where your R code is)
+## **Stategies For Large Datasets in R:**
 
-* [download](https://www.ookla.com/speedtest-intelligence)
+> R stores its objects in RAM...So, close Chrome!
+
+**Limit RAM Usage** There's not a lot of it...
+
+ * Kill programs other than R (especially Chrome)
+ * Read a subset of original data
+ * Remove unnecessary columns
 
 
-_**Remember**_: whenever you have questions about how to use or what to put in a function, type this in console:
+*** 
 
-**`?feature-I-am-confused-about`**
 
-Do it.
+## Download The Data
 
-#### Practice!
-Use these datasets as practice - a truly awesome collection of many kinds of public datasets, covering weather, economics, health and many more
+Click *Download Sample Data* and save to the *data* folder in your working directory (where your R code is)
 
-* [link](https://github.com/caesar0301/awesome-public-datasets)
+* [Download](https://www.ookla.com/speedtest-intelligence)
+
+
+_**Remember**_: Whenever you have questions about how to use code or what to put in a function, type this in console:
+
+*`?feature-I-am-confused-about`*
+
 
 ***
 
 
 ## Importing Data
+
 
 ### readr
 
@@ -31,16 +54,36 @@ Imports and exports data *much* faster than default R.
 
 * [manual](https://github.com/hadley/readr/blob/master/README.md)
 
-### Sample!
+``` {r, eval=FALSE}
+# Run this if you havn't installed readr
+install.packages("readr")
+```
 
-Start with a *small* sample of the overall dataset.
+### Subset the Data!
 
-```{eval=FALSE}
-read_csv(file, nrow=*small number*)
+Start with a *small* sample (e.g. 500 - 5000 observations) of the original dataset. Read increasingly more observations in as you grow comfortable AND have working code.
+
+Readr also has a nifty **progress bar**!
+
+``` {r, warning=FALSE}
+library(readr)
+tbl <- read_csv("data/android_data_sample.csv", n_max=50)
 ```
 
 ### Exclude unnecessary columns
 If there is information not useful for anything, take it out!
+
+``` {r}
+head(tbl$test_id)
+```
+
+Hmm... we don't really need test_id for our analysis.
+Remove it! (The FIRST column)
+
+```{r}
+tbl <- tbl[, -1] # Keep everything but the 1st column
+names(tbl)
+```
 
 ***
 
@@ -65,7 +108,7 @@ The single most powerful library in R. Summarize, filter, remove, transform and 
 #### Pipe Operators
 *%>%* Saves a lot of memory, and is much more readable
 
-```{eval=FALSE}
+```{r, eval=FALSE}
  dataset <- read_csv(android) %>%
           dplyr::group_by(device) %>%
           dplyr::summarise(avgSpeed = download_kbps) %>%
@@ -74,7 +117,7 @@ The single most powerful library in R. Summarize, filter, remove, transform and 
              
 This is the same code as:
 
-```{eval=FALSE}
+```{r, eval=FALSE}
 data set <- arrange(summarise(group_by(read_csv(android), device), avgSpeed = download_kbps), avgSpeed))
 ```
 
@@ -138,11 +181,6 @@ A software for creating graphics using drag and drop interface. No code necessar
 * [tutorial](http://dh101.humanities.ucla.edu/?page_id=163)
 * [gallery](https://public.tableau.com/s/gallery)
 
-
-### plotly
-
-### Python libraries
-
 ### D3
 
 Behind some of the most impressive interactive visualizations. Great for creating original graphics that perfectly matches your quirky mental model of what data looks like.
@@ -162,6 +200,15 @@ Behind some of the most impressive interactive visualizations. Great for creatin
 This person did an amazing job covering topics from classification and regression to deep learning and ensembles 
 
 * [link](https://github.com/ujjwalkarn/Machine-Learning-Tutorials)
+
+## Practice!
+Use these datasets as practice - a truly awesome collection of many kinds of public datasets, covering weather, economics, health and many more
+
+* [link](https://github.com/caesar0301/awesome-public-datasets)
+
+
+
+
 
 
 
