@@ -14,7 +14,7 @@ if(!require("dplyr")) install.packages("dplyr")
 
 # Explore  ----------------------------------------------------------
 
-android <- read_csv(file = "android_data_sample.csv", n_max = 500)
+android <- read_csv(file = "android_data_sample.csv")
 head(android) ## See first 6 rows
 tail(android) ## See last 6 rows
 
@@ -60,7 +60,6 @@ head(android$newCol)
 
 # Filter ------------------------------------------------------------------
 
-# Selects variables that match your condition
 
 # We only want observations from the US
 android <- dplyr::filter(android, client_country_code == "US")

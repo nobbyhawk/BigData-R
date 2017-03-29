@@ -67,22 +67,22 @@ Readr also has a nifty **progress bar**!
 
 ``` {r, warning=FALSE}
 library(readr)
-tbl <- read_csv("data/android_data_sample.csv", n_max=50)
+android <- read_csv("data/android_data_sample.csv", n_max=500)
 ```
 
 ### Exclude unnecessary columns
 If there is information not useful for anything, take it out!
 
 ``` {r}
-head(tbl$test_id)
+head(android$test_id)
 ```
 
-Hmm... we don't really need test_id for our analysis.
+Hmm... we don't really need `test_id` for our analysis.
 Remove it! (The FIRST column)
 
 ```{r}
-tbl <- tbl[, -1] # Keep everything but the 1st column
-names(tbl)
+android <- android[, -1] # Keep everything but the 1st column
+names(android)
 ```
 
 ***
@@ -93,17 +93,64 @@ names(tbl)
 You'll spend the most time cleaning data. Don't give up. Patience pays off.
 
 
+
 ### dplyr
 
 The single most powerful library in R. Summarize, filter, remove, transform and create new data... You'll save lots of time and trouble if you use this instead of default R.
 
 * [best intro tutorial](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
 
-* [PDF cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+* [PDF cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf)
 
 * [another tutorial](http://genomicsclass.github.io/book/pages/dplyr_tutorial.html)
 
 * [yet another tutorial](http://www.r-bloggers.com/data-manipulation-with-dplyr/)
+
+#### Filter rows with `Filter`
+
+> filter(data, logicalExpression1, logicalExpression2, ...)
+
+Use `filter` to easily highlight certain observations, or to remove observations you do not want in the data (e.g. outliers). You can include as many logical expressions as you want, just make sure you have enough data leftover for analysis!
+
+For example, say we wanted to look at Sprint customers with Samsung phones:
+
+```{r}
+library(dplyr, quietly = TRUE, warn.conflicts = FALSE) # I made this load quietly
+tbl_df(filter(android, isp_name == "Sprint PCS", brand == "samsung"))
+```
+
+
+
+#### Arrange rows with `arrange`
+
+> arrange(data, col1, col2, ...)
+
+Use `arrange` to sort the rows in a table in ascending order by the specified column. Additional columns are tie breakers when two or more observations have the same value. Also, wrap `desc()` around the column name to arrange in descending order.
+
+#### Select columns with `select`
+
+> select(data, col1, col2, ...)
+
+Like the SQL select, `select` is used to keep only variables of interest from your table. Say we only wanted location information about each observation.
+
+``` {r}
+select(android, android_device_id, gmaps_name, gmaps_country, gmaps_region, gmaps_subregion)
+
+#You can also keep everything except a column!
+select(android, -android_fingerprint)
+```
+
+#### Summarise with `summarize`
+
+> summarise(data, custom = function(col1), ...)
+
+Produce summaries of your data by replacing `function`above with summary functions, including `mean()`, `n()`, etc.
+
+```{r}
+summarise(android, avgUp = mean(upload_kbps, na.rm = T),
+          avgDown = mean(download_kbps, na.rm = T))
+```
+
 
 #### Pipe Operators
 *%>%* Saves a lot of memory, and is much more readable
@@ -120,6 +167,19 @@ This is the same code as:
 ```{r, eval=FALSE}
 data set <- arrange(summarise(group_by(read_csv(android), device), avgSpeed = download_kbps), avgSpeed))
 ```
+
+
+### tidyr
+
+Working with 'tidy' data is the easiest way for quick analysis.
+
+* [tutorial](http://data.library.virginia.edu/a-tidyr-tutorial/)
+
+Tidy data is usually:
+
+* One observation per row
+* Columns are not values, they are variables
+* Individual cells of the table are values for each column
 
 
 ### stringr

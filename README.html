@@ -153,9 +153,9 @@ $(document).ready(function () {
 </div>
 <div id="download-the-data" class="section level2">
 <h2>Download The Data</h2>
-<p>Click <em>Download Sample Data</em> and save to your working directory (where your R code is)</p>
+<p>Click <em>Download Sample Data</em> and save to the <em>data</em> folder in your working directory (where your R code is)</p>
 <ul>
-<li><a href="https://www.ookla.com/speedtest-intelligence">download</a></li>
+<li><a href="https://www.ookla.com/speedtest-intelligence">Download</a></li>
 </ul>
 <p><em><strong>Remember</strong></em>: Whenever you have questions about how to use code or what to put in a function, type this in console:</p>
 <p><em><code>?feature-I-am-confused-about</code></em></p>
@@ -177,7 +177,7 @@ install.packages(&quot;readr&quot;)</code></pre>
 <p>Start with a <em>small</em> sample (e.g. 500 - 5000 observations) of the original dataset. Read increasingly more observations in as you grow comfortable AND have working code.</p>
 <p>Readr also has a nifty <strong>progress bar</strong>!</p>
 <pre class="r"><code>library(readr)
-tbl &lt;- read_csv(&quot;data/android_data_sample.csv&quot;, n_max=50)</code></pre>
+android &lt;- read_csv(&quot;data/android_data_sample.csv&quot;, n_max=500)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_character(),
@@ -197,6 +197,7 @@ tbl &lt;- read_csv(&quot;data/android_data_sample.csv&quot;, n_max=50)</code></p
 ##   mnc = col_integer(),
 ##   pre_connection_type = col_integer(),
 ##   post_connection_type = col_integer(),
+##   cdma_cell_id = col_integer(),
 ##   gsm_cell_id = col_integer(),
 ##   location_type = col_integer()
 ## )</code></pre>
@@ -205,11 +206,11 @@ tbl &lt;- read_csv(&quot;data/android_data_sample.csv&quot;, n_max=50)</code></p
 <div id="exclude-unnecessary-columns" class="section level3">
 <h3>Exclude unnecessary columns</h3>
 <p>If there is information not useful for anything, take it out!</p>
-<pre class="r"><code>head(tbl$test_id)</code></pre>
+<pre class="r"><code>head(android$test_id)</code></pre>
 <pre><code>## [1] 2589794580 2589794591 2589794593 2589794601 2589794605 2589794608</code></pre>
-<p>Hmm… we don’t really need test_id for our analysis. Remove it! (The FIRST column)</p>
-<pre class="r"><code>tbl &lt;- tbl[, -1] # Keep everything but the 1st column
-names(tbl)</code></pre>
+<p>Hmm… we don’t really need <code>test_id</code> for our analysis. Remove it! (The FIRST column)</p>
+<pre class="r"><code>android &lt;- android[, -1] # Keep everything but the 1st column
+names(android)</code></pre>
 <pre><code>##  [1] &quot;android_device_id&quot;       &quot;android_fingerprint&quot;    
 ##  [3] &quot;test_date&quot;               &quot;client_ip_address&quot;      
 ##  [5] &quot;download_kbps&quot;           &quot;upload_kbps&quot;            
@@ -245,10 +246,103 @@ names(tbl)</code></pre>
 <p>The single most powerful library in R. Summarize, filter, remove, transform and create new data… You’ll save lots of time and trouble if you use this instead of default R.</p>
 <ul>
 <li><p><a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">best intro tutorial</a></p></li>
-<li><p><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">PDF cheatsheet</a></p></li>
+<li><p><a href="https://github.com/rstudio/cheatsheets/raw/master/source/pdfs/data-transformation-cheatsheet.pdf">PDF cheatsheet</a></p></li>
 <li><p><a href="http://genomicsclass.github.io/book/pages/dplyr_tutorial.html">another tutorial</a></p></li>
 <li><p><a href="http://www.r-bloggers.com/data-manipulation-with-dplyr/">yet another tutorial</a></p></li>
 </ul>
+<div id="filter-rows-with-filter" class="section level4">
+<h4>Filter rows with <code>Filter</code></h4>
+<blockquote>
+<p>filter(data, logicalExpression1, logicalExpression2, …)</p>
+</blockquote>
+<p>Use <code>filter</code> to easily highlight certain observations, or to remove observations you do not want in the data (e.g. outliers). You can include as many logical expressions as you want, just make sure you have enough data leftover for analysis!</p>
+<p>For example, say we wanted to look at Sprint customers with Samsung phones:</p>
+<pre class="r"><code>library(dplyr, quietly = TRUE, warn.conflicts = FALSE) # I made this load quietly
+tbl_df(filter(android, isp_name == &quot;Sprint PCS&quot;, brand == &quot;samsung&quot;))</code></pre>
+<pre><code>## # A tibble: 4 × 47
+##   android_device_id
+##               &lt;int&gt;
+## 1         126225151
+## 2          33533882
+## 3          43737783
+## 4         151570588
+## # ... with 46 more variables: android_fingerprint &lt;chr&gt;, test_date &lt;dttm&gt;,
+## #   client_ip_address &lt;chr&gt;, download_kbps &lt;int&gt;, upload_kbps &lt;int&gt;,
+## #   latency &lt;int&gt;, server_name &lt;chr&gt;, server_country &lt;chr&gt;,
+## #   server_country_code &lt;chr&gt;, server_latitude &lt;dbl&gt;,
+## #   server_longitude &lt;dbl&gt;, server_sponsor_name &lt;chr&gt;,
+## #   client_country &lt;chr&gt;, client_country_code &lt;chr&gt;,
+## #   client_region_name &lt;chr&gt;, client_region_code &lt;chr&gt;, client_city &lt;chr&gt;,
+## #   client_latitude &lt;dbl&gt;, client_longitude &lt;dbl&gt;, miles_between &lt;dbl&gt;,
+## #   isp_name &lt;chr&gt;, is_isp &lt;int&gt;, network_operator_name &lt;chr&gt;, mcc &lt;int&gt;,
+## #   mnc &lt;int&gt;, pre_connection_type &lt;int&gt;, post_connection_type &lt;int&gt;,
+## #   brand &lt;chr&gt;, device &lt;chr&gt;, hardware &lt;chr&gt;, build_id &lt;chr&gt;,
+## #   manufacturer &lt;chr&gt;, model &lt;chr&gt;, product &lt;chr&gt;, cdma_cell_id &lt;int&gt;,
+## #   gsm_cell_id &lt;int&gt;, location_type &lt;int&gt;, gmaps_formatted_address &lt;chr&gt;,
+## #   gmaps_name &lt;chr&gt;, gmaps_type &lt;chr&gt;, gmaps_country &lt;chr&gt;,
+## #   gmaps_country_code &lt;chr&gt;, gmaps_region &lt;chr&gt;, gmaps_subregion &lt;chr&gt;,
+## #   gmaps_subsubregion &lt;chr&gt;, gmaps_postal_code &lt;chr&gt;</code></pre>
+</div>
+<div id="arrange-rows-with-arrange" class="section level4">
+<h4>Arrange rows with <code>arrange</code></h4>
+<blockquote>
+<p>arrange(data, col1, col2, …)</p>
+</blockquote>
+<p>Use <code>arrange</code> to sort the rows in a table in ascending order by the specified column. Additional columns are tie breakers when two or more observations have the same value. Also, wrap <code>desc()</code> around the column name to arrange in descending order.</p>
+</div>
+<div id="select-columns-with-select" class="section level4">
+<h4>Select columns with <code>select</code></h4>
+<blockquote>
+<p>select(data, col1, col2, …)</p>
+</blockquote>
+<p>Like the SQL select, <code>select</code> is used to keep only variables of interest from your table. Say we only wanted location information about each observation.</p>
+<pre class="r"><code>select(android, android_device_id, gmaps_name, gmaps_country, gmaps_region, gmaps_subregion)</code></pre>
+<pre><code>## # A tibble: 500 × 5
+##    android_device_id gmaps_name gmaps_country    gmaps_region
+##                &lt;int&gt;      &lt;chr&gt;         &lt;chr&gt;           &lt;chr&gt;
+## 1           91484531 Singkawang     Indonesia West Kalimantan
+## 2          148911130     Mumbai         India     Maharashtra
+## 3          128148339 Kermanshah          Iran      Kermanshah
+## 4          152012789     Rajkot         India         Gujarat
+## 5          123241048     Jember     Indonesia       East Java
+## 6          148910078     Mumbai         India     Maharashtra
+## 7                  0  Singapore     Singapore            &lt;NA&gt;
+## 8          151945159  Wirogunan     Indonesia    Central Java
+## 9          147373402    Chennai         India      Tamil Nadu
+## 10         152541632    Patiala         India          Punjab
+## # ... with 490 more rows, and 1 more variables: gmaps_subregion &lt;chr&gt;</code></pre>
+<pre class="r"><code>#You can also keep everything except a column!
+select(android, -android_device_id)</code></pre>
+<pre><code>## # A tibble: 500 × 46
+##                                                            android_fingerprint
+##                                                                          &lt;chr&gt;
+## 1             samsung/kltezt/klte:4.4.2/KOT49H/G900IZTU1ANCB:user/release-keys
+## 2  LYF/LS5505/LS-5505:6.0.1/LYF_LS-5505_01_05/build10061237:userdebug/test-key
+## 3     samsung/nobleltejv/noblelte:6.0.1/MMB29K/N920CXXS3BQA9:user/release-keys
+## 4             Xiaomi/land/land:6.0.1/MMB29M/V8.1.1.0.MALMIDI:user/release-keys
+## 5  samsung/fortunave3gxx/fortunave3g:4.4.4/KTU84P/G530HDCU1AOF1:user/release-k
+## 6  LYF/LS5505/LS-5505:6.0.1/LYF_LS-5505_01_05/build10061237:userdebug/test-key
+## 7                    Haier/A16C3H/unknown:6.0.1/MOB31F/SRS:userdebug/test-keys
+## 8                     OPPO/A1601/A1601:5.1/LMY47I/1479785624:user/release-keys
+## 9     motorola/lux_retasia_ds/lux_uds:6.0.1/MPD24.107-70-1/2:user/release-keys
+## 10      Letv/Le1s_IN/X3_HK:6.0/DHXOSOP5801708261S/1472150001:user/release-keys
+## # ... with 490 more rows, and 45 more variables: test_date &lt;dttm&gt;,
+## #   client_ip_address &lt;chr&gt;, download_kbps &lt;int&gt;, upload_kbps &lt;int&gt;,
+## #   latency &lt;int&gt;, server_name &lt;chr&gt;, server_country &lt;chr&gt;,
+## #   server_country_code &lt;chr&gt;, server_latitude &lt;dbl&gt;,
+## #   server_longitude &lt;dbl&gt;, server_sponsor_name &lt;chr&gt;,
+## #   client_country &lt;chr&gt;, client_country_code &lt;chr&gt;,
+## #   client_region_name &lt;chr&gt;, client_region_code &lt;chr&gt;, client_city &lt;chr&gt;,
+## #   client_latitude &lt;dbl&gt;, client_longitude &lt;dbl&gt;, miles_between &lt;dbl&gt;,
+## #   isp_name &lt;chr&gt;, is_isp &lt;int&gt;, network_operator_name &lt;chr&gt;, mcc &lt;int&gt;,
+## #   mnc &lt;int&gt;, pre_connection_type &lt;int&gt;, post_connection_type &lt;int&gt;,
+## #   brand &lt;chr&gt;, device &lt;chr&gt;, hardware &lt;chr&gt;, build_id &lt;chr&gt;,
+## #   manufacturer &lt;chr&gt;, model &lt;chr&gt;, product &lt;chr&gt;, cdma_cell_id &lt;int&gt;,
+## #   gsm_cell_id &lt;int&gt;, location_type &lt;int&gt;, gmaps_formatted_address &lt;chr&gt;,
+## #   gmaps_name &lt;chr&gt;, gmaps_type &lt;chr&gt;, gmaps_country &lt;chr&gt;,
+## #   gmaps_country_code &lt;chr&gt;, gmaps_region &lt;chr&gt;, gmaps_subregion &lt;chr&gt;,
+## #   gmaps_subsubregion &lt;chr&gt;, gmaps_postal_code &lt;chr&gt;</code></pre>
+</div>
 <div id="pipe-operators" class="section level4">
 <h4>Pipe Operators</h4>
 <p><em>%&gt;%</em> Saves a lot of memory, and is much more readable</p>
