@@ -81,4 +81,20 @@ dplyr::summarise(android, n = n()) # Answer: not many
 
 
 
+# Split the Date ----------------------------------------------------------
+require(lubridate)
+require(tidyr)
+
+
+# The test_date has date and time...
+head(android$test_date)
+
+android <- tidyr::separate(android, test_date, c("test_date", "test_time"), sep=" ")
+
+
+# Convert to appropriate data types using lubridate
+android$test_date <- ymd(android$test_date)
+android$test_time <- lubridate::hms(android$test_time)
+
+
 

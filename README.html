@@ -143,6 +143,7 @@ $(document).ready(function () {
 <blockquote>
 <p>R stores its objects in RAM…So, close Chrome!</p>
 </blockquote>
+<p><strong>Buy More RAM</strong> * <span class="math inline">\($\)</span></p>
 <p><strong>Limit RAM Usage</strong> There’s not a lot of it…</p>
 <ul>
 <li>Kill programs other than R (especially Chrome)</li>
@@ -241,6 +242,19 @@ names(android)</code></pre>
 <div id="cleaning-and-analyzing-data" class="section level2">
 <h2>Cleaning and Analyzing Data</h2>
 <p>You’ll spend the most time cleaning data. Don’t give up. Patience pays off.</p>
+<div id="look-at-your-data" class="section level3">
+<h3>Look at your data</h3>
+<p>Staring at a giant table isn’t effective. Summaries and Visuals are the best way to digest what you have.</p>
+<ul>
+<li>data structure - <code>str(dataset)</code></li>
+<li>data summary - <code>summary(dataset)</code></li>
+<li>Dplyr’s summary - <code>glimpse(dataset)</code></li>
+<li>look at a few rows - <code>head(data)</code> and <code>tail(data)</code></li>
+<li>histograms - <code>hist(col)</code></li>
+<li>get fancy with correlations <code>cor(data)</code></li>
+</ul>
+<p>Once you explore and start noticing things about the data, you can start manipulating it.</p>
+</div>
 <div id="dplyr" class="section level3">
 <h3>dplyr</h3>
 <p>The single most powerful library in R. Summarize, filter, remove, transform and create new data… You’ll save lots of time and trouble if you use this instead of default R.</p>
@@ -312,22 +326,21 @@ tbl_df(filter(android, isp_name == &quot;Sprint PCS&quot;, brand == &quot;samsun
 ## 10         152541632    Patiala         India          Punjab
 ## # ... with 490 more rows, and 1 more variables: gmaps_subregion &lt;chr&gt;</code></pre>
 <pre class="r"><code>#You can also keep everything except a column!
-select(android, -android_device_id)</code></pre>
+select(android, -android_fingerprint)</code></pre>
 <pre><code>## # A tibble: 500 × 46
-##                                                            android_fingerprint
-##                                                                          &lt;chr&gt;
-## 1             samsung/kltezt/klte:4.4.2/KOT49H/G900IZTU1ANCB:user/release-keys
-## 2  LYF/LS5505/LS-5505:6.0.1/LYF_LS-5505_01_05/build10061237:userdebug/test-key
-## 3     samsung/nobleltejv/noblelte:6.0.1/MMB29K/N920CXXS3BQA9:user/release-keys
-## 4             Xiaomi/land/land:6.0.1/MMB29M/V8.1.1.0.MALMIDI:user/release-keys
-## 5  samsung/fortunave3gxx/fortunave3g:4.4.4/KTU84P/G530HDCU1AOF1:user/release-k
-## 6  LYF/LS5505/LS-5505:6.0.1/LYF_LS-5505_01_05/build10061237:userdebug/test-key
-## 7                    Haier/A16C3H/unknown:6.0.1/MOB31F/SRS:userdebug/test-keys
-## 8                     OPPO/A1601/A1601:5.1/LMY47I/1479785624:user/release-keys
-## 9     motorola/lux_retasia_ds/lux_uds:6.0.1/MPD24.107-70-1/2:user/release-keys
-## 10      Letv/Le1s_IN/X3_HK:6.0/DHXOSOP5801708261S/1472150001:user/release-keys
-## # ... with 490 more rows, and 45 more variables: test_date &lt;dttm&gt;,
-## #   client_ip_address &lt;chr&gt;, download_kbps &lt;int&gt;, upload_kbps &lt;int&gt;,
+##    android_device_id           test_date client_ip_address download_kbps
+##                &lt;int&gt;              &lt;dttm&gt;             &lt;chr&gt;         &lt;int&gt;
+## 1           91484531 2017-02-01 00:00:00   114.120.235.xxx         16932
+## 2          148911130 2017-02-01 00:00:00      49.44.51.xxx         84903
+## 3          128148339 2017-02-01 00:00:00     5.208.218.xxx         14619
+## 4          152012789 2017-02-01 00:00:01     49.34.214.xxx          2618
+## 5          123241048 2017-02-01 00:00:01     202.67.41.xxx          1119
+## 6          148910078 2017-02-01 00:00:01      49.44.51.xxx         77732
+## 7                  0 2017-02-01 00:00:01    128.199.85.xxx         28392
+## 8          151945159 2017-02-01 00:00:01    120.188.75.xxx           735
+## 9          147373402 2017-02-01 00:00:01    157.50.105.xxx           110
+## 10         152541632 2017-02-01 00:00:01   169.149.140.xxx         37080
+## # ... with 490 more rows, and 42 more variables: upload_kbps &lt;int&gt;,
 ## #   latency &lt;int&gt;, server_name &lt;chr&gt;, server_country &lt;chr&gt;,
 ## #   server_country_code &lt;chr&gt;, server_latitude &lt;dbl&gt;,
 ## #   server_longitude &lt;dbl&gt;, server_sponsor_name &lt;chr&gt;,
@@ -343,6 +356,19 @@ select(android, -android_device_id)</code></pre>
 ## #   gmaps_country_code &lt;chr&gt;, gmaps_region &lt;chr&gt;, gmaps_subregion &lt;chr&gt;,
 ## #   gmaps_subsubregion &lt;chr&gt;, gmaps_postal_code &lt;chr&gt;</code></pre>
 </div>
+<div id="summarise-with-summarize" class="section level4">
+<h4>Summarise with <code>summarize</code></h4>
+<blockquote>
+<p>summarise(data, custom = function(col1), …)</p>
+</blockquote>
+<p>Produce summaries of your data by replacing <code>function</code>above with summary functions, including <code>mean()</code>, <code>n()</code>, etc.</p>
+<pre class="r"><code>summarise(android, avgUp = mean(upload_kbps, na.rm = T),
+          avgDown = mean(download_kbps, na.rm = T))</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##      avgUp  avgDown
+##      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 7549.256 18759.35</code></pre>
+</div>
 <div id="pipe-operators" class="section level4">
 <h4>Pipe Operators</h4>
 <p><em>%&gt;%</em> Saves a lot of memory, and is much more readable</p>
@@ -353,6 +379,19 @@ select(android, -android_device_id)</code></pre>
 <p>This is the same code as:</p>
 <pre class="r"><code>data set &lt;- arrange(summarise(group_by(read_csv(android), device), avgSpeed = download_kbps), avgSpeed))</code></pre>
 </div>
+</div>
+<div id="tidyr" class="section level3">
+<h3>tidyr</h3>
+<p>Working with ‘tidy’ data is the easiest way for quick analysis.</p>
+<ul>
+<li><a href="http://data.library.virginia.edu/a-tidyr-tutorial/">tutorial</a></li>
+</ul>
+<p>Tidy data is usually:</p>
+<ul>
+<li>One observation per row</li>
+<li>Columns are not values, they are variables</li>
+<li>Individual cells of the table are values for each column</li>
+</ul>
 </div>
 <div id="stringr" class="section level3">
 <h3>stringr</h3>

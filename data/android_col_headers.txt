@@ -3,9 +3,11 @@ test_id - unique id of test in our system
 device_id - unique device id in our system
 
 android_fingerprint
+
 test_date - YYYY-MM-DD HH:MM:SS in Pacific time (we can accommodate different timezones if needed)
 
 client_ip - ip of client
+
 download_kbps - download speed in kilobits per second
 
 upload_kbps - upload speed in kilobits per second
@@ -13,12 +15,15 @@ upload_kbps - upload speed in kilobits per second
 latency_ms - ping in milliseconds
 
 server_name - name of server tested to (name of city it is located in)
+
 server_country - country name of server
 
 server_country_code - country code of server
+
 server_latitude - latitude of server tested to
 
 server_longitude - longitude of server tested to
+
 server_sponsor_name - sponsor name of server
 
 client_country - country name of the client
@@ -28,6 +33,7 @@ client_country_code - country code of the client
 client_region - region name of client (this will be state in the US)
 
 client_region_code - region code of client
+
 client_city - city of client
 
 client_latitude - latitude of client (GPS or Maxmind when location services disabled)
@@ -40,24 +46,31 @@ connection_type - http://developer.android.com/reference/android/telephony/Telep
 
 isp_name  - name of ISP (Maxmind)
 is_isp    - 0=Corporation/Academic, 1=ISP
+
 network_operator_name - Mobile Carrier Name http://developer.android.com/reference/android/telephony/TelephonyManager.html#getNetworkOperatorName()
 
 network_operator_code - MCC + MNC  http://developer.android.com/reference/android/telephony/TelephonyManager.html#getNetworkOperator() 
 brand - http://developer.android.com/reference/android/os/Build.html#BRAND
 
 device - http://developer.android.com/reference/android/os/Build.html#DEVICE 
+
 hardware - http://developer.android.com/reference/android/os/Build.html#HARDWARE 
 
 build_id - http://developer.android.com/reference/android/os/Build.html#ID 
+
 manufacturer - http://developer.android.com/reference/android/os/Build.html#MANUFACTURER
 
 model - http://developer.android.com/reference/android/os/Build.html#MODEL 
+
 product - http://developer.android.com/reference/android/os/Build.html#PRODUCT  
 
 cdma_cell_id - http://developer.android.com/reference/android/telephony/cdma/package-summary.html 
+
 gsm_cell_id - http://developer.android.com/reference/android/telephony/gsm/package-summary.html 
 
 location_type - 0 = unknown, 1 = GPS, 2 = GeoIP
 
 sim_network_operator_name - Mobile Carrier Name from the SIM
-sim_network_operator_code - MCC + MNC from the SIM  http://en.wikipedia.org/wiki/Mobile_Country_Code  http://en.wikipedia.org/wiki/Mobile_Network_Code
+
+sim_network_operator_code - MCC + MNC from the SIM  http://en.wikipedia.org/wiki/Mobile_Country_Code 
+http://en.wikipedia.org/wiki/Mobile_Network_Code

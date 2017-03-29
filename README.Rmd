@@ -20,6 +20,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > R stores its objects in RAM...So, close Chrome!
 
+**Buy More RAM**
+ * $$$
+ 
+
 **Limit RAM Usage** There's not a lot of it...
 
  * Kill programs other than R (especially Chrome)
@@ -92,6 +96,18 @@ names(android)
 
 You'll spend the most time cleaning data. Don't give up. Patience pays off.
 
+### Look at your data
+
+Staring at a giant table isn't effective. Summaries and Visuals are the best way to digest what you have.
+
+* data structure - `str(dataset)`
+* data summary - `summary(dataset)`
+* Dplyr's summary - `glimpse(dataset)`
+* look at a few rows - `head(data)` and `tail(data)`
+* histograms - `hist(col)`
+* get fancy with correlations `cor(data)`
+
+Once you explore and start noticing things about the data, you can start manipulating it.
 
 
 ### dplyr
